@@ -2,11 +2,11 @@ import numpy as np
 
 # Creating network for the equation z = ax + by
 
-dataset_size = 10
+dataset_size = 20
 
 dataset = np.zeros(shape=(dataset_size,dataset_size,1))
 weights = np.zeros(shape=(1,2))
-learning_rate = 0.01
+learning_rate = 0.001
 
 # Generate dataset
 for x in range(0, dataset_size):
@@ -35,17 +35,16 @@ def backpropogate(input, result, target, weights):
 
 print('Weights : {}'.format(weights))
 
-for i in range(0,10):
-    for x in range(0, dataset_size):
-        for y in range(0, dataset_size):
-            print('------------------------------------------------------------------------------------------------')
-            input = [x,y]
-            target = dataset[x,y]
-            result = forward(input, weights)
-            error = ((result - target)**2) / 2
-            weight_delta = backpropogate(input, result, target, weights)
-            weights = weights - (learning_rate * weight_delta)
-            w1 = weights[0,0]
-            w2 = weights[0,1]
-            print("x: {} \t| y: {} \t| target: {} \t| result: {} \t| E: {} \t| W1: {} \t| W2: {}"
-            .format(x,       y,  target,      result,    error,    w1,      w2,))
+for x in range(0, dataset_size):
+    for y in range(0, dataset_size):
+        print('---------------------------------------------------------------------------------------------------------')
+        input = [x,y]
+        target = dataset[x,y]
+        result = forward(input, weights)
+        error = ((result - target)**2) / 2
+        weight_delta = backpropogate(input, result, target, weights)
+        weights = weights - (learning_rate * weight_delta)
+        w1 = weights[0,0]
+        w2 = weights[0,1]
+        print("x: {} \t| y: {} \t| target: {} \t| result: {} \t| E: {} \t| W1: {} \t| W2: {}"
+        .format(x,       y,  target,      result,    error,    w1,      w2,))
