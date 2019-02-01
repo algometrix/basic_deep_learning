@@ -2,24 +2,25 @@ import numpy as np
 
 # Creating network for the equation z = ax + by
 
-dataset_size = 5
+dataset_size = 20
 
 dataset = np.zeros(shape=(dataset_size,dataset_size,1))
 weights = np.zeros(shape=(1,2))
-learning_rate = 1.0
+learning_rate = 0.001
 
 # Generate dataset
 for x in range(0, dataset_size):
+    a = 4 # z = ax + by
+    b = 2 # z = ax + by
+        
     for y in range(0, dataset_size):
-        a = 4.3 # z = ax + by
-        b = 2.1 # z = ax + by
         z = (a*x + b*y)
         dataset[x,y] = z
-        #print('X : {} | Y : {} | Z : {}'.format(x,y,z))
+        print('X : {} | Y : {} | Z : {}'.format(x,y,z))
 
 def forward(input, weights):
     np_input = np.array(input)
-    result = np.matmul(np_input, weights.T)
+    result = np.dot(np_input, weights[0])
     return result
 
 def backpropogate(input, result, target, weights):
@@ -30,8 +31,8 @@ def backpropogate(input, result, target, weights):
     #print('Update Value : {}'.format(update_value))
     return update_value
 
-weights[0,0] = 0
-weights[0,1] = 0
+weights[0,0] = 9
+weights[0,1] = 7
 
 print('Weights : {}'.format(weights))
 
@@ -43,6 +44,8 @@ for x in range(0, dataset_size):
         result = forward(input, weights)
         error = ((result - target)**2) / 2
         weight_delta = backpropogate(input, result, target, weights)
+        #print('Delta : {}'.format(weight_delta))
+        #print('Weights : {}'.format(weights))
         weights = weights - (learning_rate * weight_delta)
         w1 = weights[0,0]
         w2 = weights[0,1]
